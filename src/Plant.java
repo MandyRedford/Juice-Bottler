@@ -3,25 +3,44 @@ public class Plant implements Runnable {
     public static final long PROCESSING_TIME = 5 * 1000;
 
     public static void main(String[] args) {
-        // Startup a single plant
-        Plant p1 = new Plant();
-        p1.startPlant();
-        Plant p2 = new Plant();
-        p2.startPlant();
+        // Startup 
+    	int TotalPlant = 5;
+    	Plant [] p = new Plant[TotalPlant];
+    	
+    	for (int i = 0; i<TotalPlant; i++){
+    		p[i] = new Plant();
+    		p[i].startPlant();
+    	}
 
-        // Give the plants time to do work
+        int totalProvided = 0;
+        int totalProcessed = 0;
+        int totalBottles = 0;
+        int totalWaste = 0;
+
+        // Give the plants time to do work,
         delay(PROCESSING_TIME, "Plant malfunction");
 
         // Stop the plant, and wait for it to shutdown
-        p1.stopPlant();
-        p2.stopPlant();
-        p1.waitToStop();
-        p2.waitToStop();
+        for (int i = 0; i<TotalPlant; i++){
+        	p[i].stopPlant();
+        }
+        //and wait for it to shutdown
+        for (int i = 0; i<TotalPlant; i++){
+        	p[i].waitToStop();	
+        }
+         
+        for (int i = 0; i<TotalPlant; i++){
+        	totalProvided = totalProvided + p[i].getProvidedOranges(); 
+        	totalProcessed = totalProcessed + p[i].getProcessedOranges(); 
+        	totalBottles = totalBottles +p[i].getBottles();
+        	totalWaste = totalWaste + p[i].getWaste();
+        	
+        }
 
         // Summarize the results
-        System.out.println("Total provided/processed = " + (p1.getProvidedOranges()+ p2.getProvidedOranges()) + "/" + (p1.getProcessedOranges()+p2.getProcessedOranges()));
-        System.out.println("Created " + (p1.getBottles() + p2.getBottles()) +
-                           ", wasted " + (p1.getWaste() +p2.getWaste()) + " oranges");
+        System.out.println("Total provided/processed = " + (totalProvided) + "/" + (totalProcessed));
+        System.out.println("Created " + (totalBottles) +
+                           ", wasted " + (totalWaste) + " oranges");
     }
 
     private static void delay(long time, String errMsg) {
