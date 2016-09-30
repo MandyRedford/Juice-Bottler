@@ -36,7 +36,7 @@ public class Orange {
             throw new IllegalStateException("This orange has already been processed");
         }
         doWork();
-        state = state.nextState();
+        state = state.nextState();//orange moves onto next state
     }
 
     private void doWork() {
@@ -44,7 +44,7 @@ public class Orange {
         try {
             Thread.sleep(state.timeToComplete);
         } catch (InterruptedException e) {
-            System.err.println("Incomplete orange processing, juice may be bad");
+            System.err.println("Orange was not completly Processesed");
         }
     }
 }
