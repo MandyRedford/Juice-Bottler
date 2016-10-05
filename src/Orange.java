@@ -1,5 +1,5 @@
 public class Orange {
-    public enum State {
+    public enum State {// sets up the different states an orange can be (number)= seconds for delay
         Fetched(15),
         Peeled(38),
         Squeezed(29),
@@ -9,38 +9,36 @@ public class Orange {
         final int timeToComplete;
 
         private State(int timeToComplete) {
-            this.timeToComplete = timeToComplete;
+            this.timeToComplete = timeToComplete;//sets the number next to each state as a variable
         
         }
         public State nextState(){
         	if (this==Processed){
-        		return this;
+        		return this;//returns the state processed 
         	}
-        	return State.values()[this.ordinal()+1];
+        	return State.values()[this.ordinal()+1];//increment state by 1
         }
     }
     private State state;
 
     public Orange() {
-        state = State.Fetched;
-        doWork();
+        state = State.Fetched;// sets the orange to first state
+        doWork();// calls the delay
     }
 
-    public State getState() {
+    public State getState() {//allows for the orange to report its state
         return state;
     }
 
-    public void runProcess() {
-        // Don't attempt to process an already completed orange
-        if (state == State.Processed) {
+    public void runProcess() { 
+        if (state == State.Processed) {// prevent the process of an already completed orange
             throw new IllegalStateException("This orange has already been processed");
         }
-        doWork();
+        doWork();//calls the delay
         state = state.nextState();//orange moves onto next state
     }
 
-    private void doWork() {
-        // Sleep for the amount of time necessary to do the work
+    private void doWork() {// Sleep for the amount of time necessary to do the work
         try {
             Thread.sleep(state.timeToComplete);
         } catch (InterruptedException e) {
